@@ -1,0 +1,241 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* =========================
+   APP HEADER
+========================= */
+
+.app-header {
+  min-height: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 32px;
+
+  background: white;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-header h1 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.app-header p {
+  margin: 4px 0 0;
+
+  color: #6b7280;
+}
+
+/* =========================
+   NETWORK STATUS
+========================= */
+
+.network-status {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.app-main {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 40px 20px;
+}
+
+.welcome {
+  margin-bottom: 24px;
+}
+
+.welcome h2 {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+}
+
+.welcome p {
+  margin: 0;
+
+  color: #6b7280;
+}
+
+/* =========================
+   SURVEY CARD
+========================= */
+
+.survey-card {
+  padding: 28px;
+
+  background: white;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 8px;
+
+  background: white;
+
+  outline: none;
+
+  transition: border 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.form-actions {
+  display: flex;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+button {
+  cursor: pointer;
+
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 12px 18px;
+
+  font-weight: 600;
+}
+
+.primary-button {
+  width: 100%;
+
+  background: #2563eb;
+
+  color: white;
+}
+
+.secondary-button {
+  flex: 1;
+
+  background: #f3f4f6;
+
+  color: #374151;
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .app-header {
+    padding: 16px 20px;
+  }
+
+  .app-header h1 {
+    font-size: 20px;
+  }
+
+  .network-status {
+    font-size: 12px;
+  }
+
+  .app-main {
+    padding: 24px 16px;
+  }
+
+  .survey-card {
+    padding: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+}
