@@ -163,6 +163,36 @@ textarea {
   resize: vertical;
 }
 
+.photo-section {
+  margin-bottom: 20px;
+}
+
+.camera-error {
+  margin: 8px 0 0;
+
+  color: #b91c1c;
+
+  font-size: 14px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+
+  gap: 12px;
+
+  margin-top: 16px;
+}
+
+.photo-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+
+  border-radius: 8px;
+
+  object-fit: cover;
+}
+
 /* =========================
    BUTTONS
 ========================= */
