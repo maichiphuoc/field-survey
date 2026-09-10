@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Báo cáo VKU Field Survey</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm 18mm 18mm; }
+    body { font-family: Arial, sans-serif; color: #17202a; font-size: 11pt; line-height: 1.55; }
+    h1 { color: #0b3954; text-align: center; font-size: 25pt; margin: 30mm 0 8mm; }
+    h2 { color: #0b3954; font-size: 17pt; border-bottom: 1px solid #8fb3c8; padding-bottom: 4px; margin-top: 22px; }
+    h3 { color: #176087; font-size: 13pt; margin-top: 15px; }
+    .subtitle { text-align: center; font-size: 15pt; color: #176087; margin-bottom: 28mm; }
+    .meta { width: 75%; margin: auto; border-collapse: collapse; }
+    .meta td { border: 1px solid #b8cbd5; padding: 7px 9px; }
+    .meta td:first-child { background: #e8f1f5; font-weight: bold; width: 35%; }
+    .cover-note { text-align: center; color: #536775; margin-top: 35mm; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; }
+    th { background: #0b3954; color: white; text-align: left; }
+    th, td { border: 1px solid #b8cbd5; padding: 6px 8px; vertical-align: top; }
+    tr:nth-child(even) td { background: #f5f9fb; }
+    code, pre { font-family: Consolas, monospace; }
+    code { background: #eef3f5; padding: 1px 4px; }
+    pre { background: #f0f4f6; border-left: 3px solid #176087; padding: 10px; white-space: pre-wrap; }
+    li { margin: 4px 0; }
+    .page-break { page-break-before: always; }
+    .footer { color: #657783; font-size: 9pt; text-align: center; margin-top: 25px; }
+  </style>
+</head>
+<body>
+  <h1>BÁO CÁO ĐỒ ÁN</h1>
+  <div class="subtitle">Ứng dụng khảo sát cơ sở vật chất VKU</div>
+  <table class="meta">
+    <tr><td>Tên project</td><td>VKU Field Survey</td></tr>
+    <tr><td>Nền tảng</td><td>Web PWA và Android</td></tr>
+    <tr><td>Application ID</td><td><code>vn.edu.vku.fieldsurvey</code></td></tr>
+    <tr><td>Thời điểm lập báo cáo</td><td>10/09/2026</td></tr>
+  </table>
+  <p class="cover-note">Báo cáo mô tả phiên bản project hiện tại và kết quả đóng gói APK.</p>
+
+  <div class="page-break"></div>
+  <h2>1. Tổng quan</h2>
+  <p>VKU Field Survey là ứng dụng hỗ trợ cán bộ hoặc sinh viên ghi nhận tình trạng cơ sở vật chất trong khuôn viên trường. Người dùng có thể nhập thông tin tòa nhà, phòng, hạng mục, mức độ tình trạng, mô tả và ảnh hiện trường. Dữ liệu được lưu cục bộ để có thể tiếp tục thao tác khi kết nối mạng không ổn định.</p>
+  <p>Ứng dụng được xây dựng bằng Vue 3 và TypeScript, đóng gói thành PWA và Android bằng Capacitor. Project cũng có một API Express mẫu để tiếp nhận dữ liệu khảo sát.</p>
+  <h2>2. Mục tiêu</h2>
+  <ul><li>Số hóa quy trình ghi nhận hiện trạng cơ sở vật chất.</li><li>Cho phép nhập liệu nhanh tại hiện trường trên điện thoại.</li><li>Hỗ trợ chụp ảnh làm bằng chứng cho mỗi khảo sát.</li><li>Lưu dữ liệu offline bằng IndexedDB.</li><li>Chuẩn bị khả năng đồng bộ dữ liệu lên máy chủ khi có mạng.</li><li>Đóng gói ứng dụng thành APK cho Android.</li></ul>
+  <h2>3. Chức năng chính</h2>
+  <h3>3.1. Tạo phiếu khảo sát</h3>
+  <p>Form gồm tòa nhà, phòng, hạng mục, tình trạng, mô tả và danh sách ảnh. Khi gửi form, ứng dụng tạo UUID, ghi nhận thời gian tạo/cập nhật và lưu phiếu vào cơ sở dữ liệu cục bộ.</p>
+  <h3>3.2. Chụp ảnh</h3>
+  <p>Capacitor Camera mở camera trên Android. Ảnh chụp được hiển thị trong form để người dùng kiểm tra trước khi lưu.</p>
+  <h3>3.3. Lưu offline</h3>
+  <p>IndexedDB có tên <code>vku-field-survey</code> và hai object store: <code>surveys</code> cho phiếu khảo sát, <code>syncQueue</code> cho bản ghi chờ đồng bộ.</p>
+  <h3>3.4. Định vị và kiểm tra mạng</h3>
+  <p>Project có service Capacitor Geolocation để lấy vị trí và Capacitor Network để đọc trạng thái kết nối.</p>
+  <h3>3.5. API máy chủ</h3>
+  <p>Server Express cung cấp endpoint <code>POST /api/surveys</code> để nhận JSON khảo sát và trả về mã phiếu.</p>
+
+  <h2>4. Kiến trúc hệ thống</h2>
+  <table><tr><th>Lớp</th><th>Thành phần</th><th>Vai trò</th></tr><tr><td>Giao diện</td><td><code>src/App.vue</code>, <code>src/components/SurveyForm.vue</code></td><td>Hiển thị màn hình và tiếp nhận dữ liệu</td></tr><tr><td>Kiểu dữ liệu</td><td><code>src/types/survey.ts</code></td><td>Định nghĩa Survey</td></tr><tr><td>Dữ liệu cục bộ</td><td><code>src/db/</code></td><td>IndexedDB và hàng đợi đồng bộ</td></tr><tr><td>Dịch vụ thiết bị</td><td><code>src/services/</code></td><td>Camera, GPS, mạng, API và sync</td></tr><tr><td>Máy chủ</td><td><code>server/src/server.ts</code></td><td>API Express mẫu</td></tr><tr><td>Android</td><td><code>android/</code></td><td>Dự án Android do Capacitor quản lý</td></tr></table>
+
+  <h2>5. Mô hình dữ liệu</h2>
+  <p>Một đối tượng <code>Survey</code> gồm <code>id</code>, thông tin tòa nhà/phòng/hạng mục, <code>condition</code>, <code>description</code>, tọa độ tùy chọn, danh sách <code>photos</code>, thời gian tạo/cập nhật và trạng thái <code>synced</code>.</p>
+  <h2>6. Luồng xử lý</h2>
+  <h3>6.1. Lưu khảo sát</h3>
+  <ol><li>Người dùng nhập thông tin trên form.</li><li>Người dùng có thể chụp một hoặc nhiều ảnh.</li><li>Ứng dụng tạo UUID và bổ sung thời gian.</li><li><code>saveSurvey()</code> ghi dữ liệu vào store <code>surveys</code>.</li><li>Form được làm sạch cho phiếu tiếp theo.</li></ol>
+  <h3>6.2. Đồng bộ dữ liệu</h3>
+  <p><code>syncService</code> đọc phần tử trong <code>syncQueue</code>, gọi API upload và xóa phần tử khi thành công. Nếu upload lỗi, quá trình dừng để bảo toàn dữ liệu. Phiên bản hiện tại đã có service nhưng chưa tự động nối hoàn toàn vào thao tác lưu form.</p>
+
+  <div class="page-break"></div>
+  <h2>7. Công nghệ sử dụng</h2>
+  <ul><li>Vue 3 Composition API, TypeScript, Vite.</li><li>IndexedDB thông qua thư viện <code>idb</code>.</li><li>Vite PWA và Workbox service worker.</li><li>Capacitor 8 với Camera, Geolocation và Network.</li><li>Express và CORS cho API mẫu.</li><li>Android Gradle Plugin và Gradle Wrapper.</li></ul>
+  <h2>8. Đóng gói Android</h2>
+  <p>Project Android nằm trong thư mục <code>android/</code> và có thể mở trực tiếp bằng Android Studio.</p>
+  <ul><li>Package/Application ID: <code>vn.edu.vku.fieldsurvey</code>.</li><li>Tên hiển thị: VKU Field Survey.</li><li>Web assets lấy từ <code>dist</code>.</li><li>Activity chính kế thừa <code>BridgeActivity</code>.</li><li>APK debug: <code>VKU-Field-Survey-debug.apk</code>.</li></ul>
+  <pre>npm run build
+npm run cap:sync
+npm run cap:open
+npm run android:build</pre>
+  <h2>9. Kiểm thử và kết quả</h2>
+  <ul><li>TypeScript và build frontend: đạt.</li><li>Đồng bộ web assets vào Android: đạt.</li><li>Build Android debug bằng JDK 21 của Android Studio: đạt.</li><li>APK debug được tạo thành công và có thể cài trên Android.</li></ul>
+  <h2>10. Hạn chế hiện tại</h2>
+  <ul><li>Header trạng thái mạng đang hiển thị cố định.</li><li>GPS có service nhưng chưa gọi trực tiếp từ form.</li><li>Hàng đợi đồng bộ chưa tự động nhận phiếu mới sau thao tác lưu.</li><li>API dùng <code>localhost</code>, cần đổi sang máy chủ thật khi triển khai.</li><li>APK hiện là bản debug, chưa ký release.</li></ul>
+  <h2>11. Hướng phát triển</h2>
+  <ol><li>Tự động thêm khảo sát vào <code>syncQueue</code> khi offline.</li><li>Tự động đồng bộ khi chuyển sang online.</li><li>Tích hợp GPS vào phiếu.</li><li>Bổ sung danh sách, tìm kiếm, sửa và xóa phiếu.</li><li>Xây dựng API production có xác thực.</li><li>Tạo release APK/AAB có ký số.</li><li>Bổ sung kiểm thử trên nhiều thiết bị Android.</li></ol>
+  <h2>12. Kết luận</h2>
+  <p>VKU Field Survey đã hình thành nền tảng thực tế cho việc khảo sát cơ sở vật chất trên web và Android. Các chức năng nhập liệu, chụp ảnh, lưu offline, service thiết bị và cấu hình đóng gói Android đã được triển khai. Kiến trúc module giúp project có thể tiếp tục mở rộng sang đồng bộ tự động, quản lý danh sách khảo sát và triển khai máy chủ chính thức.</p>
+  <p class="footer">VKU Field Survey - Báo cáo project</p>
+</body>
+</html>
